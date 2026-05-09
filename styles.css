@@ -480,6 +480,10 @@ a {
   outline-offset: 4px;
 }
 
+.hero-cta.mobile-fixed-cta {
+  display: none;
+}
+
 /* ============================================
    セクション共通スタイル
    ============================================ */
@@ -1827,7 +1831,7 @@ a {
 .lp-hero {
   min-height: 92vh;
   height: auto;
-  padding: 4rem 1rem;
+  padding: 0 1rem 4rem;
 }
 
 .hero-kicker {
@@ -2745,7 +2749,7 @@ a {
     font-size: 0.85rem;
   }
 
-  .mobile-fixed-cta {
+  .hero-cta.mobile-fixed-cta {
     position: fixed;
     left: 0;
     right: 0;
@@ -2764,14 +2768,14 @@ a {
       inset 0 2px 0 rgba(255, 255, 255, 0.35);
   }
 
-  .mobile-fixed-cta:hover {
+  .hero-cta.mobile-fixed-cta:hover {
     transform: none;
     box-shadow:
       0 -5px 22px rgba(0, 0, 0, 0.24),
       inset 0 2px 0 rgba(255, 255, 255, 0.35);
   }
 
-  .mobile-fixed-cta:active {
+  .hero-cta.mobile-fixed-cta:active {
     transform: none;
     box-shadow:
       0 -2px 12px rgba(0, 0, 0, 0.18),
@@ -3408,7 +3412,7 @@ a {
     font-size: 0.9rem;
   }
 
-  .mobile-fixed-cta {
+  .hero-cta.mobile-fixed-cta {
     font-size: 1.45rem;
     font-weight: 800;
     padding: 1rem calc(1rem + env(safe-area-inset-right)) calc(1rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
