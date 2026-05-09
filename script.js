@@ -61,8 +61,33 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // フッターのキャラクター画像をSP版でロゴの隣に配置
   initFooterCharacters();
+
+  // CTAボタンのクリック後に押下状態が残らないようにする
+  initCtaButtonReset();
   
 });
+
+/**
+ * CTAボタンの押下状態リセット
+ * クリック後にフォーカスを外し、押し込み演出が残るのを防ぐ
+ */
+function initCtaButtonReset() {
+  const ctaButtons = document.querySelectorAll('.hero-cta');
+
+  ctaButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      setTimeout(() => {
+        this.blur();
+      }, 0);
+    });
+
+    button.addEventListener('touchend', function() {
+      setTimeout(() => {
+        this.blur();
+      }, 120);
+    });
+  });
+}
 
 /**
  * 持ち物チェックリスト機能

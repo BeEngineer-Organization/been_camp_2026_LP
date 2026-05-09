@@ -226,24 +226,115 @@ a {
 
 .sidebar-footer {
   text-align: center;
-  font-size: 0.6rem;
-  opacity: 0.7;
+  font-size: 0.8rem;
   margin-top: auto;
-  padding-top: 0.3rem;
+  padding-top: 0.8rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.sidebar-footer-text {
-  line-height: 1.4;
+  justify-content: space-between;
+  gap: 0;
+  width: 100%;
 }
 
 .sidebar-footer-char {
-  width: 35px;
+  width: 48px;
   height: auto;
-  opacity: 0.8;
+  opacity: 1;
+  filter: saturate(1.2) contrast(1.08);
+}
+
+.sidebar-footer-action {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 58px;
+  min-height: 86px;
+}
+
+.sidebar-footer-action .sidebar-footer-char-right {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  transform: translateY(-2px);
+}
+
+.character-speech-cta {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 50px;
+  bottom: 90px;
+  min-width: 132px;
+  padding: 0.7rem 1rem;
+  margin: 0;
+  border: 2px solid var(--color-secondary);
+  border-radius: 999px;
+  background-color: var(--color-white);
+  color: var(--color-secondary);
+  font-size: 1.05rem;
+  font-weight: bold;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow:
+    0 4px 0 #c95f1f,
+    0 10px 18px rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.12));
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.character-speech-cta span {
+  position: relative;
+  z-index: 2;
+}
+
+.character-speech-cta::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: -9px;
+  width: 18px;
+  height: 18px;
+  background:
+    linear-gradient(135deg, transparent 50%, var(--color-secondary) 50%) top left / 100% 100% no-repeat;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  z-index: 1;
+}
+
+.character-speech-cta::before {
+  content: '';
+  position: absolute;
+  right: 6px;
+  bottom: -5px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-white);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  z-index: 2;
+}
+
+.character-speech-cta:hover {
+  transform: translateY(-3px);
+  background-color: #fff8f2;
+  box-shadow:
+    0 7px 0 #c95f1f,
+    0 14px 22px rgba(0, 0, 0, 0.22);
+  filter: drop-shadow(0 5px 6px rgba(0, 0, 0, 0.14));
+}
+
+.character-speech-cta:active {
+  transform: translateY(3px) scale(0.98);
+  box-shadow:
+    0 1px 0 #c95f1f,
+    0 6px 12px rgba(0, 0, 0, 0.18);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.12));
+}
+
+.mobile-fixed-cta {
+  display: none;
 }
 
 /* ============================================
@@ -329,21 +420,64 @@ a {
 }
 
 .hero-cta {
+  position: relative;
+  overflow: hidden;
   margin-top: 2rem;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem 2.5rem;
   background: linear-gradient(135deg, var(--color-secondary) 0%, #ff9a5a 100%);
   color: var(--color-white);
   font-size: 1.1rem;
   font-weight: bold;
+  line-height: 1.2;
   border-radius: 50px;
-  box-shadow: var(--shadow-soft);
-  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 10px 0 #c95f1f,
+    0 18px 32px rgba(244, 127, 46, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.hero-cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.45s ease;
 }
 
 .hero-cta:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  box-shadow:
+    0 14px 0 #c95f1f,
+    0 24px 38px rgba(244, 127, 46, 0.34);
+  filter: brightness(1.05);
+}
+
+.hero-cta:hover::after {
+  left: 130%;
+}
+
+.hero-cta:active {
+  transform: translateY(6px) scale(0.98);
+  box-shadow:
+    0 4px 0 #c95f1f,
+    0 10px 20px rgba(244, 127, 46, 0.22);
+}
+
+.hero-cta:focus {
+  outline: none;
+}
+
+.hero-cta:focus-visible {
+  outline: 3px solid rgba(244, 127, 46, 0.45);
+  outline-offset: 4px;
 }
 
 /* ============================================
@@ -1719,6 +1853,21 @@ a {
   background: var(--color-white);
   color: var(--color-primary);
   border: 2px solid var(--color-primary);
+  box-shadow:
+    0 8px 0 #0a6d4d,
+    0 16px 30px rgba(14, 139, 98, 0.22);
+}
+
+.hero-cta-secondary:hover {
+  box-shadow:
+    0 12px 0 #0a6d4d,
+    0 22px 36px rgba(14, 139, 98, 0.28);
+}
+
+.hero-cta-secondary:active {
+  box-shadow:
+    0 3px 0 #0a6d4d,
+    0 9px 18px rgba(14, 139, 98, 0.2);
 }
 
 .hero-note {
@@ -1992,7 +2141,55 @@ a {
   }
 
   .lp-overview-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+    gap: 1rem;
+  }
+
+  .lp-overview-grid .overview-card {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    grid-template-areas:
+      "icon title"
+      "icon main"
+      "icon sub";
+    align-items: center;
+    min-height: auto;
+    padding: 1.2rem 1.3rem;
+    text-align: left;
+  }
+
+  .lp-overview-grid .overview-icon {
+    grid-area: icon;
+    margin: 0;
+    font-size: 2.2rem;
+    text-align: center;
+  }
+
+  .lp-overview-grid .overview-card h3 {
+    grid-area: title;
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+  }
+
+  .lp-overview-grid .overview-main {
+    grid-area: main;
+    margin-bottom: 0.25rem;
+    font-size: 1.35rem;
+  }
+
+  .lp-overview-grid .overview-sub {
+    grid-area: sub;
+    font-size: 0.9rem;
+  }
+
+  .overview-lead {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
   .timeline-item,
@@ -2547,6 +2744,39 @@ a {
     padding: 0.65rem 0.7rem;
     font-size: 0.85rem;
   }
+
+  .mobile-fixed-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1900;
+    display: inline-flex;
+    margin: 0;
+    min-height: 70px;
+    padding: 1rem calc(1rem + env(safe-area-inset-right)) calc(1rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
+    font-size: 1.45rem;
+    font-weight: 800;
+    border-radius: 0;
+    border: none;
+    box-shadow:
+      0 -4px 18px rgba(0, 0, 0, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .mobile-fixed-cta:hover {
+    transform: none;
+    box-shadow:
+      0 -5px 22px rgba(0, 0, 0, 0.24),
+      inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .mobile-fixed-cta:active {
+    transform: none;
+    box-shadow:
+      0 -2px 12px rgba(0, 0, 0, 0.18),
+      inset 0 3px 10px rgba(0, 0, 0, 0.12);
+  }
   
   .sidebar-nav a.active {
     background-color: rgba(255, 255, 255, 0.25);
@@ -2569,6 +2799,7 @@ a {
   
   .main-content {
     margin-left: 0;
+    padding-bottom: 80px;
   }
   
   .hero {
@@ -3176,6 +3407,12 @@ a {
     padding: 0.8rem 1.8rem;
     font-size: 0.9rem;
   }
+
+  .mobile-fixed-cta {
+    font-size: 1.45rem;
+    font-weight: 800;
+    padding: 1rem calc(1rem + env(safe-area-inset-right)) calc(1rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
+  }
   
   /* ご案内セクションのさらに小さい画面用スタイル */
   .guide-toggle-header {
@@ -3760,6 +3997,48 @@ input:focus {
   
   .footer-logo-wrapper {
     gap: 0.5rem;
+  }
+}
+
+/* LPの申込概要は既存SPスタイルより優先して横切れを防ぐ */
+@media (max-width: 768px) {
+  .overview-grid.lp-overview-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 420px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .overview-grid.lp-overview-grid .overview-card {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    grid-template-areas:
+      "icon title"
+      "icon main"
+      "icon sub";
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+  }
+
+  .overview-grid.lp-overview-grid .overview-icon {
+    grid-area: icon;
+    margin: 0;
+  }
+
+  .overview-grid.lp-overview-grid .overview-card h3 {
+    grid-area: title;
+  }
+
+  .overview-grid.lp-overview-grid .overview-main {
+    grid-area: main;
+    overflow-wrap: anywhere;
+  }
+
+  .overview-grid.lp-overview-grid .overview-sub {
+    grid-area: sub;
+    overflow-wrap: anywhere;
   }
 }
 
