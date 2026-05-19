@@ -6,24 +6,20 @@
 
 ```
 assets/
-├── photos/     # 写真を保存
-│   ├── hero-bg.jpg          # ヒーローセクションの背景画像
-│   ├── day1-01.jpg          # 1日目の写真
-│   ├── day1-02.jpg
-│   ├── day2-01.jpg          # 2日目の写真
-│   └── ...
-└── logos/      # ロゴを保存
-    ├── logo.png             # メインロゴ
-    ├── beengineer-logo.png  # BeEngineerロゴ
-    └── logosland-logo.png   # ロゴスランドロゴ
+├── fav/        # ロゴ・ファビコン・キャラクター（SVG）
+├── photos/     # 合宿の写真（詳細は photos/README.md）
+│   ├── hero/
+│   │   └── hero-01.jpg 〜 hero-14.jpg   # ヒーロー周囲コラージュ
+│   └── voice/
+│       └── voice-01.jpg 〜 voice-06.jpg # 昨年度の様子ギャラリー
 ```
 
 ## 🖼️ 推奨画像サイズ
 
-### ヒーローセクション背景
-- **推奨サイズ**: 1920×1080px 以上
+### ヒーロー・ギャラリー写真
+- **推奨サイズ**: 800×600px 前後
 - **フォーマット**: JPG (軽量化推奨)
-- **用途**: トップページのメインビジュアル
+- **用途**: トップ周囲コラージュ・昨年度の様子
 
 ### ブログ写真
 - **推奨サイズ**: 800×600px 程度
@@ -41,11 +37,11 @@ assets/
 2. HTMLファイルで画像のパスを指定
 
 ```html
-<!-- 例: ブログに写真を追加 -->
-<img src="assets/photos/day1-01.jpg" alt="集合写真">
+<!-- 例: ヒーロー -->
+<img src="assets/photos/hero/hero-01.jpg" alt="">
 
-<!-- 例: ロゴを追加 -->
-<img src="assets/logos/logo.png" alt="LOGOS LAND">
+<!-- 例: 昨年度の様子ギャラリー -->
+<img src="assets/photos/voice/voice-01.jpg" alt="昨年度合宿の様子">
 ```
 
 ## 🎨 画像最適化のヒント
