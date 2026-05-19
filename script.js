@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // ハンバーガーメニュー機能を初期化
   initHamburgerMenu();
+
+  // SP版固定CTAの表示制御を初期化
+  initMobileFixedCta();
   
   // プログラムカードのトグル機能を初期化（SP版のみ）
   initProgramCardToggle();
@@ -212,6 +215,8 @@ function initHamburgerMenu() {
     } else {
       document.body.style.overflow = '';
     }
+
+    updateMobileFixedCta();
   }
   
   // メニューを閉じる
@@ -220,7 +225,80 @@ function initHamburgerMenu() {
     sidebar.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
+
+    updateMobileFixedCta();
   }
+}
+
+/**
+ * SP版固定CTA（参加申し込みへ）の表示制御
+ * - FV（ヒーロー）表示中は非表示
+ * - 申込概要（#entry）までスクロールしたら表示
+ * - ハンバーガーメニュー開閉中は非表示
+ */
+function initMobileFixedCta() {
+  const cta = document.querySelector('.mobile-fixed-cta');
+  const hero = document.getElementById('hero');
+  const entry = document.getElementById('entry');
+
+  if (!cta || !hero || !entry) {
+    return;
+  }
+
+  const sectionObserver = new IntersectionObserver(
+    () => {
+      updateMobileFixedCta();
+    },
+    {
+      root: null,
+      rootMargin: '0px 0px -20% 0px',
+      threshold: [0, 0.25, 0.5, 0.75, 1]
+    }
+  );
+
+  sectionObserver.observe(hero);
+  sectionObserver.observe(entry);
+
+  window.addEventListener('scroll', updateMobileFixedCta, { passive: true });
+  window.addEventListener('resize', updateMobileFixedCta);
+
+  updateMobileFixedCta();
+}
+
+/**
+ * SP版固定CTAの表示状態を更新
+ */
+function updateMobileFixedCta() {
+  const cta = document.querySelector('.mobile-fixed-cta');
+  const sidebar = document.getElementById('sidebar');
+  const hero = document.getElementById('hero');
+  const entry = document.getElementById('entry');
+
+  if (!cta || !hero || !entry) {
+    return;
+  }
+
+  const isMobile = window.innerWidth <= 768;
+  const menuOpen = sidebar && sidebar.classList.contains('active');
+
+  if (!isMobile) {
+    cta.classList.remove('is-visible');
+    document.body.classList.remove('has-mobile-cta');
+    return;
+  }
+
+  const heroRect = hero.getBoundingClientRect();
+  const entryRect = entry.getBoundingClientRect();
+  const onFv = heroRect.bottom > window.innerHeight * 0.55;
+  const entryInView = entryRect.top < window.innerHeight * 0.75;
+
+  const entryReached =
+    entryInView && !onFv;
+
+  const shouldShow = entryReached && !menuOpen;
+
+  cta.classList.toggle('is-visible', shouldShow);
+  document.body.classList.toggle('has-mobile-cta', shouldShow);
 }
 
 /**

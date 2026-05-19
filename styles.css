@@ -3084,7 +3084,8 @@ a {
     padding: 1rem 0.8rem;
     z-index: 1500;
     transition: left 0.3s ease;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
   }
@@ -3151,6 +3152,21 @@ a {
     box-shadow:
       0 -4px 18px rgba(0, 0, 0, 0.2),
       inset 0 2px 0 rgba(255, 255, 255, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(100%);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .hero-cta.mobile-fixed-cta.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   .hero-cta.mobile-fixed-cta:hover {
@@ -3173,21 +3189,70 @@ a {
   }
   
   .sidebar-footer {
+    position: relative;
     flex-shrink: 0;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
     gap: 0.4rem;
+    padding: 4.75rem 0.6rem 0.85rem 0.3rem;
+    min-height: 130px;
+    overflow: visible;
   }
-  
+
   .sidebar-footer-char {
-    width: 30px;
+    width: 45px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .sidebar-footer-char-left {
+    transform: translateX(-6px);
+  }
+
+  .sidebar-footer-action {
+    display: block;
+    width: auto;
+    min-height: 0;
+    position: static;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-right: 0.15rem;
+  }
+
+  .sidebar-footer-action .sidebar-footer-char-right {
+    display: block;
+    transform: translate(-60px, -2px);
+  }
+
+  .character-speech-cta {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.3rem;
+    right: auto;
+    bottom: auto;
+    min-width: 136px;
+    padding: 0.75rem 1.05rem;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .character-speech-cta:hover {
+    transform: translateY(-3px);
+  }
+
+  .character-speech-cta:active {
+    transform: translateY(3px) scale(0.98);
   }
   
   .main-content {
     margin-left: 0;
+    padding-bottom: 0;
+    transition: padding-bottom 0.3s ease;
+  }
+
+  body.has-mobile-cta .main-content {
     padding-bottom: 80px;
   }
   
