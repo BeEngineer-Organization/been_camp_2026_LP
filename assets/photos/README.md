@@ -10,7 +10,7 @@ assets/photos/
 │   ├── hero-01.jpg
 │   ├── hero-02.jpg
 │   └── … hero-14.jpg
-└── voice/         … 「昨年度の様子」ギャラリー（6枚）
+└── voice/         … 「昨年度の様子」マーキー用（6枚）
     ├── voice-01.jpg
     ├── voice-02.jpg
     └── … voice-06.jpg
@@ -21,9 +21,10 @@ assets/photos/
 | ファイル | 用途 |
 |---------|------|
 | `hero-01.jpg` 〜 `hero-14.jpg` | `index.html` の `hero-photo--1` 〜 `--14` と同じ順 |
-| `voice-01.jpg` 〜 `voice-06.jpg` | `index.html` の `lp-photo-item--1` 〜 `--6` と同じ順 |
+| `voice-01.jpg` 〜 `voice-06.jpg` | `script.js` の `VOICE_MARQUEE_PHOTOS`（voice 6枚）と同じ順 |
+| 上記 hero + voice 計20枚 | 「昨年度の様子」の横スクロールマーキー（`initVoicePhotoMarquee`） |
 
-写真を差し替えるときは、**同じ番号のファイル名**で上書きするか、`index.html` のパスと番号をそろえてください。
+写真を差し替えるときは、**同じ番号のファイル名**で上書きするか、`index.html`（hero）・`script.js`（マーキー）のパスと番号をそろえてください。
 
 ## 推奨サイズ
 

@@ -22,7 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // オンライン説明会バナー（開催日時以降は非表示）
   initInfoSessionBanner();
-  
+
+  // SP版ヒーロー直下・昨年度の様子・写真マーキー
+  initHeroPhotoMarquee();
+  initVoicePhotoMarquee();
+  initPhotoLightbox();
+
   // プログラムカードのトグル機能を初期化（SP版のみ）
   initProgramCardToggle();
   
@@ -277,6 +282,180 @@ function initInfoSessionBanner() {
 
   hideIfPastDeadline();
   window.setInterval(hideIfPastDeadline, 60000);
+}
+
+/** SP版ヒーロー直下マーキー用（hero 14枚） */
+const HERO_MARQUEE_PHOTOS = [
+  { src: 'assets/photos/hero/hero-01.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-02.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-03.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-04.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-05.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-06.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-07.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-08.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-09.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-10.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-11.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-12.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-13.jpg', alt: '合宿の様子' },
+  { src: 'assets/photos/hero/hero-14.jpg', alt: '合宿の様子' }
+];
+
+/** 昨年度の様子マーキー用写真（hero + voice） */
+const VOICE_MARQUEE_PHOTOS = HERO_MARQUEE_PHOTOS.map(function(photo) {
+  return { src: photo.src, alt: '昨年度合宿の様子' };
+}).concat([
+  { src: 'assets/photos/voice/voice-01.jpg', alt: '昨年度合宿：プログラミングの様子' },
+  { src: 'assets/photos/voice/voice-02.jpg', alt: '昨年度合宿：学習の様子' },
+  { src: 'assets/photos/voice/voice-03.jpg', alt: '昨年度合宿：参加者の様子' },
+  { src: 'assets/photos/voice/voice-04.jpg', alt: '昨年度合宿：参加者の様子' },
+  { src: 'assets/photos/voice/voice-05.jpg', alt: '昨年度合宿：参加者の様子' },
+  { src: 'assets/photos/voice/voice-06.jpg', alt: '昨年度合宿：参加者の様子' }
+]);
+
+/**
+ * 写真マーキーのトラックを生成
+ */
+function buildPhotoMarquee(track, photos) {
+  if (!track || photos.length === 0) {
+    return;
+  }
+
+  const loopPhotos = photos.concat(photos);
+
+  loopPhotos.forEach(function(photo, index) {
+    const isDuplicate = index >= photos.length;
+    const item = document.createElement('li');
+    item.className = 'lp-photo-marquee-item';
+
+    if (isDuplicate) {
+      item.setAttribute('aria-hidden', 'true');
+    }
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'lp-photo-marquee-thumb';
+    button.setAttribute('aria-label', isDuplicate ? '写真を拡大表示' : `${photo.alt}（拡大表示）`);
+
+    const image = document.createElement('img');
+    image.src = photo.src;
+    image.alt = isDuplicate ? '' : photo.alt;
+    image.width = 128;
+    image.height = 86;
+    image.decoding = 'async';
+
+    if (index > 0) {
+      image.loading = 'lazy';
+    }
+
+    button.appendChild(image);
+    item.appendChild(button);
+    track.appendChild(item);
+  });
+
+  const durationSeconds = Math.max(60, photos.length * 7);
+  track.style.setProperty('--marquee-duration', `${durationSeconds}s`);
+}
+
+/**
+ * SP版・ヒーロー直下の写真マーキー
+ */
+function initHeroPhotoMarquee() {
+  buildPhotoMarquee(
+    document.querySelector('[data-hero-marquee-track]'),
+    HERO_MARQUEE_PHOTOS
+  );
+}
+
+/**
+ * 昨年度の様子・写真マーキー（hero と voice の全写真をループ表示）
+ */
+function initVoicePhotoMarquee() {
+  buildPhotoMarquee(
+    document.querySelector('[data-voice-marquee-track]'),
+    VOICE_MARQUEE_PHOTOS
+  );
+}
+
+/**
+ * マーキー写真クリックで拡大表示（スクロール位置を維持）
+ */
+function initPhotoLightbox() {
+  const marquees = document.querySelectorAll('.lp-photo-marquee');
+
+  if (marquees.length === 0) {
+    return;
+  }
+
+  let activeLightbox = null;
+  let activeLightboxImage = null;
+  let activeMarquee = null;
+
+  function closeLightbox() {
+    if (!activeLightbox || !activeLightboxImage) {
+      return;
+    }
+
+    activeLightbox.hidden = true;
+    activeLightbox.setAttribute('aria-hidden', 'true');
+    activeLightboxImage.removeAttribute('src');
+    activeMarquee?.classList.remove('is-paused');
+    activeLightbox = null;
+    activeLightboxImage = null;
+    activeMarquee = null;
+  }
+
+  marquees.forEach(function(marquee) {
+    const lightbox = marquee.querySelector('[data-photo-lightbox]');
+    const lightboxImage = lightbox?.querySelector('[data-lightbox-image]');
+    const track = marquee.querySelector('.lp-photo-marquee-track');
+
+    if (!lightbox || !lightboxImage || !track) {
+      return;
+    }
+
+    track.addEventListener('click', function(event) {
+      const thumb = event.target.closest('.lp-photo-marquee-thumb');
+
+      if (!thumb) {
+        return;
+      }
+
+      const image = thumb.querySelector('img');
+
+      if (!image) {
+        return;
+      }
+
+      event.preventDefault();
+      closeLightbox();
+      activeLightbox = lightbox;
+      activeLightboxImage = lightboxImage;
+      activeMarquee = marquee;
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt || '合宿の様子';
+      lightbox.hidden = false;
+      lightbox.setAttribute('aria-hidden', 'false');
+      marquee.classList.add('is-paused');
+    });
+
+    lightbox.querySelectorAll('[data-lightbox-close]').forEach(function(closeButton) {
+      closeButton.addEventListener('click', closeLightbox);
+    });
+
+    lightbox.addEventListener('click', function(event) {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && activeLightbox) {
+      closeLightbox();
+    }
+  });
 }
 
 /**
