@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // SP版固定CTAの表示制御を初期化
   initMobileFixedCta();
+
+  // オンライン説明会バナー（開催日時以降は非表示）
+  initInfoSessionBanner();
   
   // プログラムカードのトグル機能を初期化（SP版のみ）
   initProgramCardToggle();
@@ -228,6 +231,52 @@ function initHamburgerMenu() {
 
     updateMobileFixedCta();
   }
+}
+
+/** オンライン説明会バナーを非表示にする日時（日本時間） */
+const INFO_SESSION_DEADLINE = new Date('2026-06-12T19:00:00+09:00');
+
+/**
+ * オンライン説明会の案内表示制御
+ * 2026年6月12日（金）19:00（JST）以降はバナー・ナビ・文中リンクを非表示
+ */
+function initInfoSessionBanner() {
+  const targets = document.querySelectorAll(
+    '[data-info-session-banner], [data-info-session-nav], [data-info-session-inline-link]'
+  );
+
+  if (targets.length === 0) {
+    return;
+  }
+
+  function hideIfPastDeadline() {
+    if (Date.now() < INFO_SESSION_DEADLINE.getTime()) {
+      return;
+    }
+
+    targets.forEach((element) => {
+      if (element.matches('[data-info-session-nav]')) {
+        element.hidden = true;
+        element.style.display = 'none';
+        return;
+      }
+
+      if (element.matches('[data-info-session-inline-link]')) {
+        const parent = element.closest('.section-note');
+        if (parent) {
+          parent.textContent =
+            '現在BeEngineerに通っている生徒が対象です。申込方法や詳細な持ち物は、申込案内とあわせてお知らせします。';
+        }
+        return;
+      }
+
+      element.hidden = true;
+      element.style.display = 'none';
+    });
+  }
+
+  hideIfPastDeadline();
+  window.setInterval(hideIfPastDeadline, 60000);
 }
 
 /**
