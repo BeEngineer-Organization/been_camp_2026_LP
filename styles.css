@@ -916,8 +916,539 @@ a {
 }
 
 /* ============================================
-   学習内容
+   学習内容（トランプ風）
    ============================================ */
+
+.section.program-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.12) 0%, transparent 35%),
+    linear-gradient(160deg, #0d4a32 0%, #0a3d28 45%, #072e1f 100%);
+  color: #f5f0e6;
+}
+
+.program-section-felt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  z-index: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.03) 3px,
+      rgba(0, 0, 0, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.03) 3px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+}
+
+.program-suit-floats {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.program-suit-float {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  font-family: Georgia, 'Times New Roman', serif;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  animation: program-suit-float-life var(--float-duration, 4s) ease-in-out forwards;
+  will-change: opacity, transform;
+  --float-peak: 0.13;
+}
+
+.program-suit-float--black {
+  color: #f5f0e6;
+}
+
+.program-suit-float--red {
+  color: #ffb4b4;
+}
+
+.program-suit-float--rank {
+  font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.program-suit-float--card {
+  width: var(--card-width, 4.5rem);
+  aspect-ratio: 2.5 / 3.5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.program-suit-float--face {
+  background: linear-gradient(145deg, #fffef9 0%, #f8f4ea 100%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.program-suit-float-card-corner {
+  position: absolute;
+  top: 0.28rem;
+  left: 0.32rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.42em;
+  line-height: 1;
+  gap: 0.08em;
+  font-weight: 700;
+}
+
+.program-suit-float-card-center {
+  font-size: 0.72em;
+  line-height: 1;
+}
+
+.program-suit-float--back {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.07) 0,
+      rgba(255, 255, 255, 0.07) 4px,
+      transparent 4px,
+      transparent 8px
+    ),
+    linear-gradient(145deg, #163a8c 0%, #0f2a66 55%, #0a1f4d 100%);
+  border: 2px solid rgba(245, 240, 230, 0.65);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.program-suit-float--back::after {
+  content: '';
+  position: absolute;
+  inset: 0.28rem;
+  border: 1px solid rgba(245, 240, 230, 0.22);
+  border-radius: 4px;
+}
+
+@keyframes program-suit-float-life {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.55) rotate(var(--float-rotate, 0deg));
+  }
+
+  18% {
+    opacity: var(--float-peak);
+  }
+
+  78% {
+    opacity: var(--float-peak);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.08) rotate(var(--float-rotate-end, 12deg));
+  }
+}
+
+.program-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.program-section-title {
+  color: #f5f0e6;
+}
+
+.program-section-title::after {
+  background: linear-gradient(90deg, #d4af37, #f5e6a8, #d4af37);
+}
+
+.program-section-intro {
+  color: rgba(245, 240, 230, 0.88);
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.program-card-hand {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 0.5rem 1rem;
+}
+
+.program-deal-deck {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: clamp(128px, 15.5vw, 208px);
+  aspect-ratio: 2.5 / 3.5;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  pointer-events: none;
+  transition: opacity 0.4s ease 0.3s, transform 0.5s ease 0.3s;
+}
+
+.program-deal-deck::before,
+.program-deal-deck::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 3px solid rgba(245, 240, 230, 0.85);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.06) 0,
+      rgba(255, 255, 255, 0.06) 6px,
+      transparent 6px,
+      transparent 12px
+    ),
+    linear-gradient(145deg, #163a8c 0%, #0f2a66 55%, #0a1f4d 100%);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.program-deal-deck::after {
+  transform: translate(6px, -6px) rotate(4deg);
+  z-index: -1;
+}
+
+.program-card-hand.is-dealt .program-deal-deck {
+  opacity: 0;
+  transform: translate(-50%, -58%) scale(0.82);
+  transition: opacity 0.45s ease 0.55s, transform 0.55s ease 0.55s;
+}
+
+.program-card-hand:not(.is-dealt) .playing-card {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.program-card-hand:not(.is-dealt) .playing-card--fan-left-1,
+.program-card-hand:not(.is-dealt) .playing-card--fan-left-2,
+.program-card-hand:not(.is-dealt) .playing-card--fan-right-1,
+.program-card-hand:not(.is-dealt) .playing-card--fan-right-2 {
+  transform: translateY(calc(-50% - 130px)) scale(0.62) rotate(0deg);
+}
+
+.program-card-hand:not(.is-dealt) .playing-card--content-1,
+.program-card-hand:not(.is-dealt) .playing-card--content-2,
+.program-card-hand:not(.is-dealt) .playing-card--content-3 {
+  transform: translateY(-130px) scale(0.62) rotate(0deg);
+}
+
+.program-card-hand.is-dealt .playing-card {
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    opacity 0.55s ease,
+    transform 0.78s cubic-bezier(0.22, 1.05, 0.36, 1),
+    box-shadow 0.35s ease;
+}
+
+.program-card-hand.is-dealt .playing-card--fan-left-1 {
+  transform: translateY(-50%) rotate(-16deg) scale(0.9);
+  transition-delay: 0.35s;
+}
+
+.program-card-hand.is-dealt .playing-card--fan-left-2 {
+  transform: translateY(-50%) rotate(-7deg) scale(0.96);
+  transition-delay: 0.55s;
+}
+
+.program-card-hand.is-dealt .playing-card--content-1 {
+  transform: rotate(-3deg);
+  transition-delay: 0.75s;
+}
+
+.program-card-hand.is-dealt .playing-card--content-2 {
+  transform: translateY(-8px);
+  transition-delay: 0.95s;
+}
+
+.program-card-hand.is-dealt .playing-card--content-3 {
+  transform: rotate(3deg);
+  transition-delay: 1.15s;
+}
+
+.program-card-hand.is-dealt .playing-card--fan-right-1 {
+  transform: translateY(-50%) rotate(16deg) scale(0.9);
+  transition-delay: 1.35s;
+}
+
+.program-card-hand.is-dealt .playing-card--fan-right-2 {
+  transform: translateY(-50%) rotate(7deg) scale(0.96);
+  transition-delay: 1.55s;
+}
+
+.program-card-hand-flank {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(128px, 15.5vw, 208px);
+  height: clamp(179px, 21.7vw, 291px);
+  z-index: 1;
+}
+
+.program-card-hand-flank .playing-card {
+  position: absolute;
+  width: clamp(128px, 15.5vw, 208px);
+  margin-left: 0;
+}
+
+.program-card-hand-flank--left .playing-card--fan-left-1 {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(-16deg) scale(0.9);
+  z-index: 1;
+}
+
+.program-card-hand-flank--left .playing-card--fan-left-2 {
+  left: 38%;
+  top: 50%;
+  transform: translateY(-50%) rotate(-7deg) scale(0.96);
+  z-index: 2;
+}
+
+.program-card-hand-flank--right .playing-card--fan-right-1 {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(16deg) scale(0.9);
+  z-index: 1;
+}
+
+.program-card-hand-flank--right .playing-card--fan-right-2 {
+  right: 38%;
+  top: 50%;
+  transform: translateY(-50%) rotate(7deg) scale(0.96);
+  z-index: 2;
+}
+
+.program-card-hand-core {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(0.75rem, 1.8vw, 1.5rem);
+  flex: 0 1 auto;
+  overflow: visible;
+}
+
+.program-card-hand-core .playing-card--content {
+  width: clamp(128px, 15.5vw, 208px);
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+.playing-card--content .playing-card-center {
+  padding: 1.5rem 0.5rem 0.75rem;
+}
+
+.playing-card--content .playing-card-text {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-top: 0.65rem;
+}
+
+.playing-card--content-1 {
+  transform: rotate(-3deg);
+  z-index: 2;
+}
+
+.playing-card--content-2 {
+  transform: translateY(-8px);
+  z-index: 3;
+}
+
+.playing-card--content-3 {
+  transform: rotate(3deg);
+  z-index: 2;
+}
+
+.playing-card {
+  position: relative;
+  aspect-ratio: 2.5 / 3.5;
+  background: linear-gradient(145deg, #fffef9 0%, #f8f4ea 100%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  padding: 1.25rem 1.1rem 1.1rem;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 12px 28px rgba(0, 0, 0, 0.35),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #1a1a1a;
+  font-family: Georgia, 'Times New Roman', serif;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.playing-card--back {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.06) 0,
+      rgba(255, 255, 255, 0.06) 6px,
+      transparent 6px,
+      transparent 12px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.04) 0,
+      rgba(255, 255, 255, 0.04) 6px,
+      transparent 6px,
+      transparent 12px
+    ),
+    linear-gradient(145deg, #163a8c 0%, #0f2a66 55%, #0a1f4d 100%);
+  border: 3px solid rgba(245, 240, 230, 0.85);
+  padding: 0.65rem;
+  pointer-events: none;
+}
+
+.playing-card--back::before {
+  content: '';
+  position: absolute;
+  inset: 0.55rem;
+  border: 2px solid rgba(245, 240, 230, 0.28);
+  border-radius: 8px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 65%);
+}
+
+.playing-card-back-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  font-weight: 800;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  color: rgba(245, 240, 230, 0.8);
+  letter-spacing: 0.18em;
+  z-index: 1;
+}
+
+.playing-card--deco {
+  pointer-events: none;
+  opacity: 0.94;
+}
+
+.playing-card--deco .playing-card-suit-large {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.12;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.playing-card--club .playing-card-rank,
+.playing-card--club .playing-card-suit,
+.playing-card--club .playing-card-suit-large {
+  color: #1a1a1a;
+}
+
+.playing-card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  gap: 0.15rem;
+}
+
+.playing-card-corner--tl { top: 0.85rem; left: 0.85rem; }
+.playing-card-corner--br {
+  bottom: 0.85rem;
+  right: 0.85rem;
+  transform: rotate(180deg);
+}
+
+.playing-card-rank {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.playing-card-suit {
+  font-size: 1rem;
+}
+
+.playing-card--spade .playing-card-rank,
+.playing-card--spade .playing-card-suit,
+.playing-card--spade .playing-card-suit-large { color: #1a1a1a; }
+
+.playing-card--diamond .playing-card-rank,
+.playing-card--diamond .playing-card-suit,
+.playing-card--diamond .playing-card-suit-large,
+.playing-card--heart .playing-card-rank,
+.playing-card--heart .playing-card-suit,
+.playing-card--heart .playing-card-suit-large { color: #c41e3a; }
+
+.playing-card-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 0.75rem 1.25rem;
+  position: relative;
+}
+
+.playing-card-suit-large {
+  position: absolute;
+  font-size: clamp(4rem, 10vw, 5.5rem);
+  opacity: 0.1;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.playing-card-title {
+  position: relative;
+  z-index: 1;
+  font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 800;
+  line-height: 1.35;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.playing-card-text {
+  position: relative;
+  z-index: 1;
+  font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: #444;
+  text-align: center;
+  margin: 0.85rem 0 0;
+  max-width: none;
+}
 
 .chapter-number {
   font-size: 1rem;
@@ -2116,6 +2647,62 @@ a {
   .lp-photo-marquee-item[aria-hidden='true'] {
     display: none;
   }
+
+  .playing-card,
+  .playing-card--spade,
+  .playing-card--diamond,
+  .playing-card--heart,
+  .playing-card:hover,
+  .playing-card--spade:hover,
+  .playing-card--diamond:hover,
+  .playing-card--heart:hover,
+  .program-card-hand-core .playing-card--content:hover,
+  .program-card-hand-core .playing-card--content-2:hover {
+    transform: none;
+    transition: none;
+  }
+
+  .program-card-hand:not(.is-dealt) .playing-card,
+  .program-card-hand.is-dealt .playing-card {
+    opacity: 1;
+    pointer-events: auto;
+    transition: none;
+  }
+
+  .program-card-hand:not(.is-dealt) .playing-card--fan-left-1,
+  .program-card-hand:not(.is-dealt) .playing-card--fan-left-2,
+  .program-card-hand:not(.is-dealt) .playing-card--fan-right-1,
+  .program-card-hand:not(.is-dealt) .playing-card--fan-right-2,
+  .program-card-hand:not(.is-dealt) .playing-card--content-1,
+  .program-card-hand:not(.is-dealt) .playing-card--content-2,
+  .program-card-hand:not(.is-dealt) .playing-card--content-3 {
+    transform: none;
+  }
+
+  .program-card-hand.is-dealt .playing-card--fan-left-1 {
+    transform: translateY(-50%) rotate(-16deg) scale(0.9);
+  }
+
+  .program-card-hand.is-dealt .playing-card--fan-left-2 {
+    transform: translateY(-50%) rotate(-7deg) scale(0.96);
+  }
+
+  .program-card-hand.is-dealt .playing-card--fan-right-1 {
+    transform: translateY(-50%) rotate(16deg) scale(0.9);
+  }
+
+  .program-card-hand.is-dealt .playing-card--fan-right-2 {
+    transform: translateY(-50%) rotate(7deg) scale(0.96);
+  }
+
+  .program-deal-deck {
+    display: none;
+  }
+
+  .program-suit-float {
+    animation: none;
+    display: none;
+  }
 }
 
 .hero-kicker {
@@ -3047,6 +3634,20 @@ a {
    レスポンシブデザイン
    ============================================ */
 
+@media (max-width: 1100px) {
+  .program-card-hand-flank {
+    display: none;
+  }
+
+  .program-card-hand {
+    gap: 0;
+  }
+
+  .program-card-hand-core {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1024px) {
   :root {
     --sidebar-width: 200px;
@@ -3058,6 +3659,10 @@ a {
   
   .section {
     padding: 4rem 2rem;
+  }
+
+  .program-card-hand-core {
+    gap: 1.25rem;
   }
   
   .access-content {
@@ -3596,6 +4201,17 @@ a {
   .section {
     padding: 3rem 1.5rem;
   }
+
+  .section.program-section {
+    overflow: hidden;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .program-section + .section {
+    padding-top: 3rem;
+  }
   
   .section-title {
     font-size: 2rem;
@@ -3604,6 +4220,120 @@ a {
   .card-grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
+  }
+
+  .program-card-hand {
+    --stack-card-width: 100%;
+    --stack-strip: 8.5rem;
+    --stack-pull: calc(var(--stack-card-width) * 7 / 5 - var(--stack-strip));
+    gap: 0;
+    padding: 0;
+  }
+
+  .program-card-hand-flank {
+    display: none;
+  }
+
+  .program-card-hand-core {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: none;
+    padding-bottom: 0;
+  }
+
+  .program-card-hand-core .playing-card--content {
+    width: var(--stack-card-width);
+    aspect-ratio: 2.5 / 3.5;
+    height: auto;
+    overflow: hidden;
+    flex-shrink: 0;
+    padding: 1rem 1.15rem 0.7rem;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 20px rgba(0, 0, 0, 0.32),
+      0 3px 6px rgba(0, 0, 0, 0.18);
+  }
+
+  .program-card-hand-core .playing-card--content:not(:first-child) {
+    margin-top: calc(-1 * var(--stack-pull));
+  }
+
+  .program-card-hand-core .playing-card--content-1 {
+    z-index: 1;
+  }
+
+  .program-card-hand-core .playing-card--content-2 {
+    z-index: 2;
+  }
+
+  .program-card-hand-core .playing-card--content-3 {
+    z-index: 3;
+    margin-bottom: calc(-1 * var(--stack-pull));
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-center {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1.45rem 0.2rem 0;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-title {
+    font-size: 1.22rem;
+    line-height: 1.35;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-rank {
+    font-size: 1.85rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-suit {
+    font-size: 1.35rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-corner--tl {
+    top: 0.7rem;
+    left: 0.8rem;
+    gap: 0.2rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-corner--br {
+    display: none;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-suit-large {
+    font-size: 4rem;
+    top: 0.15rem;
+    opacity: 0.08;
+  }
+
+  .program-card-hand:not(.is-dealt) .playing-card--content-1,
+  .program-card-hand:not(.is-dealt) .playing-card--content-2,
+  .program-card-hand:not(.is-dealt) .playing-card--content-3 {
+    transform: translateY(-90px) scale(0.62) rotate(0deg);
+  }
+
+  .program-card-hand.is-dealt .playing-card--content-1 {
+    transform: rotate(-1.5deg) translateX(-3px);
+    transition-delay: 0.35s;
+  }
+
+  .program-card-hand.is-dealt .playing-card--content-2 {
+    transform: rotate(0deg);
+    transition-delay: 0.6s;
+  }
+
+  .program-card-hand.is-dealt .playing-card--content-3 {
+    transform: rotate(1.5deg) translateX(3px);
+    transition-delay: 0.85s;
   }
   
   /* 学習プログラムのタブ（SP版） */
@@ -4186,6 +4916,37 @@ a {
   
   .card-grid {
     gap: 1rem;
+  }
+
+  .program-card-hand {
+    max-width: 100%;
+    --stack-card-width: 100%;
+    --stack-strip: 8rem;
+    --stack-pull: calc(var(--stack-card-width) * 7 / 5 - var(--stack-strip));
+  }
+
+  .program-card-hand-core .playing-card--content {
+    padding: 0.95rem 1rem 0.65rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-title {
+    font-size: 1.15rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-text {
+    font-size: 0.9rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-rank {
+    font-size: 1.7rem;
+  }
+
+  .program-card-hand-core .playing-card--content .playing-card-suit {
+    font-size: 1.25rem;
+  }
+
+  .program-section + .section {
+    padding-top: 3rem;
   }
   
   .card-header {

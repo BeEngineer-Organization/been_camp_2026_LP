@@ -171,46 +171,88 @@
             </div>
         </section>
 
-        <section id="program" class="section">
+        <section id="program" class="section program-section">
+            <div class="program-section-felt" aria-hidden="true"></div>
+            <div class="program-suit-floats" data-program-suit-floats aria-hidden="true"></div>
             <div class="container">
-                <h2 class="section-title">学習プログラム</h2>
-                <p class="section-intro">トランプゲームを自動でプレイするAIをつくります。自分で戦略を考え、講師のサポートを受けながら実装し、最後は最強のAIを競います。</p>
-                <div class="card-grid">
-                    <div class="card program-card">
-                        <div class="card-header">
-                            <div class="card-icon">🃏</div>
-                            <div class="card-header-text">
-                                <div class="chapter-number">STEP 1</div>
-                                <h3 class="card-title">ゲームを理解し、戦略を考える</h3>
+                <h2 class="section-title program-section-title">学習プログラム</h2>
+                <p class="section-intro program-section-intro">オリジナルトランプゲームを自動でプレイするAIをつくります。自分で戦略を考え、講師のサポートを受けながら実装し、最後は最強のAIを競います。</p>
+                <div class="program-card-hand" data-program-deal aria-label="学習プログラム">
+                    <div class="program-deal-deck" aria-hidden="true"></div>
+                    <div class="program-card-hand-flank program-card-hand-flank--left" aria-hidden="true">
+                        <div class="playing-card playing-card--back playing-card--fan-left-1"><span class="playing-card-back-mark">BeEn</span></div>
+                        <div class="playing-card playing-card--club playing-card--deco playing-card--fan-left-2">
+                            <div class="playing-card-corner playing-card-corner--tl">
+                                <span class="playing-card-rank">J</span>
+                                <span class="playing-card-suit">♣</span>
                             </div>
-                        </div>
-                        <div class="card-content">
-                            <p>ルールや勝ち筋を整理し、どんな判断をするAIにしたいかを考えます。強い戦略を言語化するところから始めます。</p>
+                            <div class="playing-card-corner playing-card-corner--br">
+                                <span class="playing-card-rank">J</span>
+                                <span class="playing-card-suit">♣</span>
+                            </div>
+                            <span class="playing-card-suit-large">♣</span>
                         </div>
                     </div>
-                    <div class="card program-card">
-                        <div class="card-header">
-                            <div class="card-icon">🤖</div>
-                            <div class="card-header-text">
-                                <div class="chapter-number">STEP 2</div>
-                                <h3 class="card-title">戦略をAIとして実装する</h3>
-                            </div>
+                    <div class="program-card-hand-core">
+                    <article class="playing-card playing-card--spade playing-card--content playing-card--content-1">
+                        <div class="playing-card-corner playing-card-corner--tl">
+                            <span class="playing-card-rank">A</span>
+                            <span class="playing-card-suit">♠</span>
                         </div>
-                        <div class="card-content">
-                            <p>各自が考えた戦略をプログラムに落とし込みます。講師が伴走し、条件分岐や判断ロジックの組み立てをサポートします。</p>
+                        <div class="playing-card-corner playing-card-corner--br">
+                            <span class="playing-card-rank">A</span>
+                            <span class="playing-card-suit">♠</span>
                         </div>
+                        <div class="playing-card-center">
+                            <span class="playing-card-suit-large" aria-hidden="true">♠</span>
+                            <h3 class="playing-card-title">AIを開発！</h3>
+                            <p class="playing-card-text">オリジナルトランプゲームを自動で戦うAIを開発する。</p>
+                        </div>
+                    </article>
+                    <article class="playing-card playing-card--diamond playing-card--content playing-card--content-2">
+                        <div class="playing-card-corner playing-card-corner--tl">
+                            <span class="playing-card-rank">K</span>
+                            <span class="playing-card-suit">♦</span>
+                        </div>
+                        <div class="playing-card-corner playing-card-corner--br">
+                            <span class="playing-card-rank">K</span>
+                            <span class="playing-card-suit">♦</span>
+                        </div>
+                        <div class="playing-card-center">
+                            <span class="playing-card-suit-large" aria-hidden="true">♦</span>
+                            <h3 class="playing-card-title">オリジナル戦略！</h3>
+                            <p class="playing-card-text">一人一人が自分のアイデアで、そのままAIとして実装する。</p>
+                        </div>
+                    </article>
+                    <article class="playing-card playing-card--heart playing-card--content playing-card--content-3">
+                        <div class="playing-card-corner playing-card-corner--tl">
+                            <span class="playing-card-rank">A</span>
+                            <span class="playing-card-suit">♥</span>
+                        </div>
+                        <div class="playing-card-corner playing-card-corner--br">
+                            <span class="playing-card-rank">A</span>
+                            <span class="playing-card-suit">♥</span>
+                        </div>
+                        <div class="playing-card-center">
+                            <span class="playing-card-suit-large" aria-hidden="true">♥</span>
+                            <h3 class="playing-card-title">最強を決定！</h3>
+                            <p class="playing-card-text">最強のAIを開発して、最後日に勝負して誰のAIが最強なのかを決める。</p>
+                        </div>
+                    </article>
                     </div>
-                    <div class="card program-card">
-                        <div class="card-header">
-                            <div class="card-icon">🏆</div>
-                            <div class="card-header-text">
-                                <div class="chapter-number">STEP 3</div>
-                                <h3 class="card-title">最強AIを競う</h3>
+                    <div class="program-card-hand-flank program-card-hand-flank--right" aria-hidden="true">
+                        <div class="playing-card playing-card--spade playing-card--deco playing-card--fan-right-1">
+                            <div class="playing-card-corner playing-card-corner--tl">
+                                <span class="playing-card-rank">Q</span>
+                                <span class="playing-card-suit">♠</span>
                             </div>
+                            <div class="playing-card-corner playing-card-corner--br">
+                                <span class="playing-card-rank">Q</span>
+                                <span class="playing-card-suit">♠</span>
+                            </div>
+                            <span class="playing-card-suit-large">♠</span>
                         </div>
-                        <div class="card-content">
-                            <p>完成したAI同士を対戦させ、誰のAIが一番強いのかを競います。結果を見ながら、戦略や実装の工夫をふり返ります。</p>
-                        </div>
+                        <div class="playing-card playing-card--back playing-card--fan-right-2"><span class="playing-card-back-mark">BeEn</span></div>
                     </div>
                 </div>
             </div>
@@ -218,21 +260,21 @@
 
         <section id="schedule" class="section">
             <div class="container">
-                <h2 class="section-title">当日の流れ</h2>
+                <h2 class="section-title">合宿の流れ</h2>
                 <p class="section-desc">2泊3日で、戦略づくりから実装、対戦まで一気通貫で取り組みます。</p>
                 <div class="lp-timeline">
                     <div class="timeline-item">
-                        <span class="timeline-day">1日目</span>
-                        <h3>ルール理解・戦略設計</h3>
+                        <span class="timeline-day">CHAPTER1</span>
+                        <h3>ルール理解</h3>
                         <p>ゲームのルールを理解し、どんな判断をするAIにするかを考えます。実装に必要な準備も進めます。</p>
                     </div>
                     <div class="timeline-item">
-                        <span class="timeline-day">2日目</span>
-                        <h3>AI実装・調整</h3>
+                        <span class="timeline-day">CHAPTER2</span>
+                        <h3>戦略設計・AI実装・調整</h3>
                         <p>講師のサポートを受けながら、自分の戦略をプログラムにします。試しながら判断ロジックを調整します。</p>
                     </div>
                     <div class="timeline-item">
-                        <span class="timeline-day">3日目</span>
+                        <span class="timeline-day">CHAPTER3</span>
                         <h3>最終対戦・ふり返り</h3>
                         <p>完成したAI同士で対戦し、最強AIを決めます。工夫した点や学びを共有してふり返ります。</p>
                     </div>

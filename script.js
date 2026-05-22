@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
   initVoicePhotoMarquee();
   initPhotoLightbox();
 
+  // 学習プログラムのトランプ配り演出
+  initProgramDealAnimation();
+
+  // 学習プログラム背景のトランプマーク演出
+  initProgramSuitFloats();
+
   // プログラムカードのトグル機能を初期化（SP版のみ）
   initProgramCardToggle();
   
@@ -527,6 +533,225 @@ function updateMobileFixedCta() {
 
   cta.classList.toggle('is-visible', shouldShow);
   document.body.classList.toggle('has-mobile-cta', shouldShow);
+}
+
+/**
+ * 学習プログラムセクションのトランプ配り演出
+ * 山札が画面下1/3に到達したタイミングでカードを順番に並べる
+ */
+function initProgramDealAnimation() {
+  const hand = document.querySelector('[data-program-deal]');
+  const deck = hand?.querySelector('.program-deal-deck');
+  const fallbackTarget = hand?.querySelector('.program-card-hand-core') || hand;
+
+  if (!hand || !fallbackTarget) {
+    return;
+  }
+
+  let triggered = false;
+
+  const revealHand = () => {
+    hand.classList.add('is-dealt');
+  };
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    revealHand();
+    return;
+  }
+
+  const triggerTarget =
+    deck && window.getComputedStyle(deck).display !== 'none' ? deck : fallbackTarget;
+
+  const isInBottomThird = (rect) => {
+    const bottomThirdStart = window.innerHeight * (2 / 3);
+    return rect.bottom > bottomThirdStart && rect.top < window.innerHeight;
+  };
+
+  const startDeal = () => {
+    if (triggered) {
+      return;
+    }
+    triggered = true;
+    observer.unobserve(triggerTarget);
+    // 山札が下1/3に来てから少し見せてから配る
+    window.setTimeout(revealHand, 500);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          startDeal();
+        }
+      });
+    },
+    {
+      threshold: 0,
+      // 画面下1/3（上67%を除いた領域）に入ったら発火
+      rootMargin: '-67% 0px 0px 0px'
+    }
+  );
+
+  observer.observe(triggerTarget);
+
+  // ページ内リンク等ですでに下1/3にある場合
+  requestAnimationFrame(() => {
+    const rect = triggerTarget.getBoundingClientRect();
+
+    if (isInBottomThird(rect)) {
+      startDeal();
+    }
+  });
+}
+
+/**
+ * 学習プログラムセクション背景のトランプマーク演出
+ * スート・ランク・カードをランダムな位置で薄く表示し、フェードアウトさせる
+ */
+function initProgramSuitFloats() {
+  const section = document.getElementById('program');
+  const container = section?.querySelector('[data-program-suit-floats]');
+
+  if (!section || !container) {
+    return;
+  }
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  const FLOAT_PEAK = 0.13;
+  const suits = [
+    { char: '♠', tone: 'black' },
+    { char: '♣', tone: 'black' },
+    { char: '♥', tone: 'red' },
+    { char: '♦', tone: 'red' }
+  ];
+  const ranks = ['A', 'K', 'Q', 'J', '10', '9'];
+  const floatTypes = ['suit', 'rank', 'cardFace', 'cardBack'];
+
+  let isActive = false;
+  let spawnTimer = null;
+  const maxFloats = window.innerWidth <= 768 ? 7 : 12;
+
+  const randomBetween = (min, max) => Math.random() * (max - min) + min;
+
+  const applyFloatMotion = (el, left, top, duration, rotate, rotateEnd) => {
+    el.style.left = `${left}%`;
+    el.style.top = `${top}%`;
+    el.style.setProperty('--float-duration', `${duration}s`);
+    el.style.setProperty('--float-rotate', `${rotate}deg`);
+    el.style.setProperty('--float-rotate-end', `${rotateEnd}deg`);
+    el.style.setProperty('--float-peak', String(FLOAT_PEAK));
+  };
+
+  const createCardFace = (suit, rank) => {
+    const el = document.createElement('div');
+    el.className = `program-suit-float program-suit-float--card program-suit-float--face program-suit-float--${suit.tone}`;
+
+    const corner = document.createElement('span');
+    corner.className = 'program-suit-float-card-corner';
+    corner.textContent = rank;
+
+    const cornerSuit = document.createElement('span');
+    cornerSuit.textContent = suit.char;
+    corner.appendChild(cornerSuit);
+
+    const center = document.createElement('span');
+    center.className = 'program-suit-float-card-center';
+    center.textContent = suit.char;
+
+    el.append(corner, center);
+    return el;
+  };
+
+  const spawnFloat = () => {
+    if (!isActive || container.children.length >= maxFloats) {
+      return;
+    }
+
+    const suit = suits[Math.floor(Math.random() * suits.length)];
+    const floatType = floatTypes[Math.floor(Math.random() * floatTypes.length)];
+    const left = randomBetween(3, 97);
+    const top = randomBetween(5, 95);
+    const duration = randomBetween(2.8, 6);
+    const rotate = randomBetween(-40, 40);
+    const rotateEnd = rotate + randomBetween(-18, 18);
+
+    let el;
+
+    if (floatType === 'cardFace') {
+      const rank = ranks[Math.floor(Math.random() * ranks.length)];
+      el = createCardFace(suit, rank);
+      el.style.setProperty('--card-width', `${randomBetween(4.2, 7.2)}rem`);
+      el.style.fontSize = `${randomBetween(1.8, 2.6)}rem`;
+    } else if (floatType === 'cardBack') {
+      el = document.createElement('div');
+      el.className = 'program-suit-float program-suit-float--card program-suit-float--back';
+      el.style.setProperty('--card-width', `${randomBetween(4.2, 7.2)}rem`);
+    } else if (floatType === 'rank') {
+      const rank = ranks[Math.floor(Math.random() * ranks.length)];
+      el = document.createElement('span');
+      el.className = `program-suit-float program-suit-float--rank program-suit-float--${suit.tone}`;
+      el.textContent = `${rank}${suit.char}`;
+      el.style.fontSize = `${randomBetween(1.8, 3.2)}rem`;
+    } else {
+      el = document.createElement('span');
+      el.className = `program-suit-float program-suit-float--${suit.tone}`;
+      el.textContent = suit.char;
+      el.style.fontSize = `${randomBetween(3, 7)}rem`;
+    }
+
+    applyFloatMotion(el, left, top, duration, rotate, rotateEnd);
+    container.appendChild(el);
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+  };
+
+  const startFloats = () => {
+    if (isActive) {
+      return;
+    }
+    isActive = true;
+
+    for (let i = 0; i < 6; i += 1) {
+      window.setTimeout(spawnFloat, i * 350);
+    }
+
+    spawnTimer = window.setInterval(spawnFloat, 850);
+  };
+
+  const stopFloats = () => {
+    isActive = false;
+
+    if (spawnTimer) {
+      window.clearInterval(spawnTimer);
+      spawnTimer = null;
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          startFloats();
+        } else {
+          stopFloats();
+          container.replaceChildren();
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+
+  observer.observe(section);
+
+  window.addEventListener('resize', () => {
+    if (!isActive) {
+      return;
+    }
+    stopFloats();
+    startFloats();
+  }, { passive: true });
 }
 
 /**
