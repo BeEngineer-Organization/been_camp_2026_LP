@@ -392,6 +392,8 @@ a {
 }
 
 .hero-panel {
+  position: relative;
+  overflow: visible;
   background-color: var(--color-white);
   padding: 3rem 2.5rem;
   border-radius: var(--border-radius);
@@ -2755,6 +2757,28 @@ a {
   letter-spacing: 0.04em;
 }
 
+.hero-study-highlight {
+  position: absolute;
+  top: -0.55rem;
+  right: -0.5rem;
+  z-index: 2;
+  margin: 0;
+  padding: 0.85rem 0.95rem 0.75rem;
+  width: 8.25rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #5c4a10;
+  text-align: center;
+  letter-spacing: 0.02em;
+  background: linear-gradient(160deg, #fffce0 0%, #fff59d 52%, #ffee58 100%);
+  box-shadow:
+    1px 2px 0 rgba(0, 0, 0, 0.06),
+    3px 5px 14px rgba(0, 0, 0, 0.14);
+  transform: rotate(7deg);
+  transform-origin: top right;
+}
+
 .hero-cta-group,
 .lp-apply-actions {
   display: flex;
@@ -2812,7 +2836,9 @@ a {
   right: 0.45rem;
   bottom: 50px;
   margin: 0;
+  display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.05rem;
   font-size: 0.66rem;
   font-weight: 600;
@@ -2824,6 +2850,8 @@ a {
 
 .lp-cta-meta--sidebar .lp-cta-meta-item {
   display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .mobile-fixed-cta-bar {
@@ -3223,6 +3251,10 @@ a {
     margin: 0;
   }
 
+  .lp-hero-marquee:hover .lp-photo-marquee-track {
+    animation-play-state: running;
+  }
+
   .lp-hero-marquee-section + .lp-info-session {
     padding-top: 2.5rem;
   }
@@ -3307,12 +3339,15 @@ a {
   .lp-apply-actions {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.95rem;
+    margin-top: 1.5rem;
   }
 
   .hero-cta-group .hero-cta,
   .lp-apply-actions .hero-cta {
     width: 100%;
     text-align: center;
+    margin-top: 0;
   }
 
   .lp-photo-marquee {
@@ -3925,7 +3960,7 @@ a {
     position: fixed;
     top: 0;
     left: -100%;
-    width: 280px;
+    width: 240px;
     height: 100vh;
     background: linear-gradient(180deg, var(--color-primary) 0%, #0a6d4d 100%);
     padding: 1rem 0.8rem;
@@ -4066,8 +4101,8 @@ a {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    padding: 4.75rem 0.6rem 0.85rem 0.3rem;
-    min-height: 130px;
+    padding: 0.6rem 0.6rem 0.85rem 0.3rem;
+    min-height: 118px;
     overflow: visible;
   }
 
@@ -4076,24 +4111,23 @@ a {
     flex-direction: row;
     align-items: flex-end;
     justify-content: flex-start;
-    gap: 0.4rem;
+    gap: 6.55rem;
     width: 100%;
   }
 
   .lp-cta-meta--sidebar {
-    top: 3.35rem;
-    bottom: auto;
-    left: 0.6rem;
-    right: 0.6rem;
-    margin: 0;
-    padding: 0;
-    font-size: 0.7rem;
-    line-height: 1.35;
-    text-align: center;
+    top: auto;
+    bottom: 50px;
+    left: 0.35rem;
+    right: 0.35rem;
+    z-index: 2;
+    padding: 0 0.5rem;
+    font-size: 0.62rem;
+    line-height: 1.4;
   }
 
   .sidebar-footer-char {
-    width: 45px;
+    width: 40px;
     flex-shrink: 0;
     display: block;
   }
@@ -4103,29 +4137,30 @@ a {
   }
 
   .sidebar-footer-action {
-    display: block;
-    width: auto;
-    min-height: 0;
-    position: static;
-    flex-shrink: 0;
-    margin-left: auto;
-    padding-right: 0.15rem;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 58px;
+    min-height: 86px;
+    margin-left: 0;
+    padding-right: 0;
   }
 
   .sidebar-footer-action .sidebar-footer-char-right {
     display: block;
-    transform: translate(-60px, -2px);
+    transform: translateY(-2px);
   }
 
   .character-speech-cta {
     position: absolute;
-    top: 0.5rem;
-    left: 0.3rem;
-    right: auto;
-    bottom: auto;
-    min-width: 136px;
-    padding: 0.75rem 1.05rem;
-    font-size: 1.1rem;
+    right: 38px;
+    bottom: 90px;
+    left: auto;
+    top: auto;
+    min-width: 124px;
+    padding: 0.7rem 0.95rem;
+    font-size: 1.05rem;
     margin: 0;
   }
 
@@ -4171,11 +4206,35 @@ a {
   }
   
   .hero-panel {
-    padding: 2rem;
+    position: relative;
+    padding: 1.25rem 1.5rem 1.75rem;
     width: 100%;
+    overflow: visible;
+  }
+
+  .hero-study-highlight {
+    position: absolute;
+    top: 1.1rem;
+    right: -1.55rem;
+    left: auto;
+    z-index: 2;
+    margin: 0;
+    width: 6.5rem;
+    padding: 0.55rem 0.65rem 0.5rem;
+    font-size: 0.8rem;
+    transform: rotate(6deg);
+    transform-origin: top right;
+  }
+
+  .hero-kicker {
+    margin-top: 0;
+    padding: 0.45rem 0.85rem;
+    line-height: 1.35;
+    border-radius: 12px;
   }
   
   .hero-title {
+    width: 100%;
     font-size: 2rem;
     margin-bottom: 1rem;
   }
@@ -4870,7 +4929,7 @@ a {
   }
   
   .hero-panel {
-    padding: 1.75rem;
+    padding: 1.15rem 1.25rem 1.65rem;
     width: 100%;
   }
 
