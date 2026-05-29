@@ -3251,8 +3251,13 @@ a {
     margin: 0;
   }
 
-  .lp-hero-marquee:hover .lp-photo-marquee-track {
+  .lp-hero-marquee:hover .lp-photo-marquee-track,
+  .lp-photo-marquee:hover .lp-photo-marquee-track {
     animation-play-state: running;
+  }
+
+  .lp-photo-marquee.is-paused .lp-photo-marquee-track {
+    animation-play-state: paused;
   }
 
   .lp-hero-marquee-section + .lp-info-session {
