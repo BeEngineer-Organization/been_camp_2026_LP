@@ -406,6 +406,11 @@ function initPhotoLightbox() {
     activeLightbox.hidden = true;
     activeLightbox.setAttribute('aria-hidden', 'true');
     activeLightboxImage.removeAttribute('src');
+
+    if (activeMarquee && activeLightbox.parentElement === document.body) {
+      activeMarquee.appendChild(activeLightbox);
+    }
+
     activeMarquee?.classList.remove('is-paused');
     activeLightbox = null;
     activeLightboxImage = null;
@@ -439,6 +444,7 @@ function initPhotoLightbox() {
       activeLightbox = lightbox;
       activeLightboxImage = lightboxImage;
       activeMarquee = marquee;
+      document.body.appendChild(lightbox);
       lightboxImage.src = image.currentSrc || image.src;
       lightboxImage.alt = image.alt || '合宿の様子';
       lightbox.hidden = false;
@@ -471,11 +477,11 @@ function initPhotoLightbox() {
  * - ハンバーガーメニュー開閉中は非表示
  */
 function initMobileFixedCta() {
-  const cta = document.querySelector('.mobile-fixed-cta');
+  const ctaBar = document.getElementById('mobile-fixed-cta-bar');
   const hero = document.getElementById('hero');
   const entry = document.getElementById('entry');
 
-  if (!cta || !hero || !entry) {
+  if (!ctaBar || !hero || !entry) {
     return;
   }
 
@@ -503,12 +509,12 @@ function initMobileFixedCta() {
  * SP版固定CTAの表示状態を更新
  */
 function updateMobileFixedCta() {
-  const cta = document.querySelector('.mobile-fixed-cta');
+  const ctaBar = document.getElementById('mobile-fixed-cta-bar');
   const sidebar = document.getElementById('sidebar');
   const hero = document.getElementById('hero');
   const entry = document.getElementById('entry');
 
-  if (!cta || !hero || !entry) {
+  if (!ctaBar || !hero || !entry) {
     return;
   }
 
@@ -516,7 +522,8 @@ function updateMobileFixedCta() {
   const menuOpen = sidebar && sidebar.classList.contains('active');
 
   if (!isMobile) {
-    cta.classList.remove('is-visible');
+    ctaBar.classList.remove('is-visible');
+    ctaBar.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('has-mobile-cta');
     return;
   }
@@ -531,7 +538,8 @@ function updateMobileFixedCta() {
 
   const shouldShow = entryReached && !menuOpen;
 
-  cta.classList.toggle('is-visible', shouldShow);
+  ctaBar.classList.toggle('is-visible', shouldShow);
+  ctaBar.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
   document.body.classList.toggle('has-mobile-cta', shouldShow);
 }
 
@@ -574,7 +582,7 @@ function initProgramDealAnimation() {
     triggered = true;
     observer.unobserve(triggerTarget);
     // 山札が下1/3に来てから少し見せてから配る
-    window.setTimeout(revealHand, 500);
+    window.setTimeout(revealHand, 250);
   };
 
   const observer = new IntersectionObserver(

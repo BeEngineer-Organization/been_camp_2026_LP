@@ -225,15 +225,25 @@ a {
 }
 
 .sidebar-footer {
+  position: relative;
   text-align: center;
   font-size: 0.8rem;
   margin-top: auto;
-  padding-top: 0.8rem;
+  padding: 0.6rem 0 0.35rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0;
   width: 100%;
+  min-height: 118px;
+}
+
+.sidebar-footer-characters {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
 }
 
 .sidebar-footer-char {
@@ -1105,7 +1115,7 @@ a {
   transform: translate(-50%, -50%);
   z-index: 8;
   pointer-events: none;
-  transition: opacity 0.4s ease 0.3s, transform 0.5s ease 0.3s;
+  transition: opacity 0.28s ease 0.18s, transform 0.35s ease 0.18s;
 }
 
 .program-deal-deck::before,
@@ -1137,7 +1147,7 @@ a {
 .program-card-hand.is-dealt .program-deal-deck {
   opacity: 0;
   transform: translate(-50%, -58%) scale(0.82);
-  transition: opacity 0.45s ease 0.55s, transform 0.55s ease 0.55s;
+  transition: opacity 0.32s ease 0.32s, transform 0.4s ease 0.32s;
 }
 
 .program-card-hand:not(.is-dealt) .playing-card {
@@ -1162,44 +1172,44 @@ a {
   opacity: 1;
   pointer-events: auto;
   transition:
-    opacity 0.55s ease,
-    transform 0.78s cubic-bezier(0.22, 1.05, 0.36, 1),
-    box-shadow 0.35s ease;
+    opacity 0.38s ease,
+    transform 0.52s cubic-bezier(0.22, 1.05, 0.36, 1),
+    box-shadow 0.28s ease;
 }
 
 .program-card-hand.is-dealt .playing-card--fan-left-1 {
   transform: translateY(-50%) rotate(-16deg) scale(0.9);
-  transition-delay: 0.35s;
+  transition-delay: 0.18s;
 }
 
 .program-card-hand.is-dealt .playing-card--fan-left-2 {
   transform: translateY(-50%) rotate(-7deg) scale(0.96);
-  transition-delay: 0.55s;
+  transition-delay: 0.3s;
 }
 
 .program-card-hand.is-dealt .playing-card--content-1 {
   transform: rotate(-3deg);
-  transition-delay: 0.75s;
+  transition-delay: 0.42s;
 }
 
 .program-card-hand.is-dealt .playing-card--content-2 {
   transform: translateY(-8px);
-  transition-delay: 0.95s;
+  transition-delay: 0.54s;
 }
 
 .program-card-hand.is-dealt .playing-card--content-3 {
   transform: rotate(3deg);
-  transition-delay: 1.15s;
+  transition-delay: 0.66s;
 }
 
 .program-card-hand.is-dealt .playing-card--fan-right-1 {
   transform: translateY(-50%) rotate(16deg) scale(0.9);
-  transition-delay: 1.35s;
+  transition-delay: 0.78s;
 }
 
 .program-card-hand.is-dealt .playing-card--fan-right-2 {
   transform: translateY(-50%) rotate(7deg) scale(0.96);
-  transition-delay: 1.55s;
+  transition-delay: 0.9s;
 }
 
 .program-card-hand-flank {
@@ -1263,12 +1273,41 @@ a {
 
 .playing-card--content .playing-card-center {
   padding: 1.5rem 0.5rem 0.75rem;
+  isolation: isolate;
+}
+
+.playing-card--content .playing-card-center::before {
+  content: '';
+  position: absolute;
+  inset: 0.35rem 0.15rem 0.1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.65);
+  z-index: 0;
+}
+
+.playing-card--content .playing-card-suit-large {
+  z-index: 0;
+  opacity: 0.035;
+  color: #1a1a1a !important;
+}
+
+.playing-card--content .playing-card-title {
+  z-index: 1;
+  color: #111;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .playing-card--content .playing-card-text {
-  font-size: 0.78rem;
-  line-height: 1.55;
+  z-index: 1;
+  font-size: 0.82rem;
+  line-height: 1.6;
   margin-top: 0.65rem;
+  color: #222;
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 .playing-card--content-1 {
@@ -2751,6 +2790,46 @@ a {
   font-size: 0.95rem;
 }
 
+.lp-cta-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1.25rem;
+  margin-top: 1rem;
+  color: var(--color-secondary);
+  font-size: 0.92rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.lp-cta-meta-item {
+  display: inline-block;
+}
+
+.lp-cta-meta--sidebar {
+  position: absolute;
+  left: 0.45rem;
+  right: 0.45rem;
+  bottom: 50px;
+  margin: 0;
+  flex-direction: column;
+  gap: 0.05rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+  padding: 0;
+}
+
+.lp-cta-meta--sidebar .lp-cta-meta-item {
+  display: block;
+}
+
+.mobile-fixed-cta-bar {
+  display: none;
+}
+
 .section-title-white {
   color: var(--color-white);
 }
@@ -3904,14 +3983,15 @@ a {
   }
 
   .hero-cta.mobile-fixed-cta {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1900;
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
     display: inline-flex;
     margin: 0;
     min-height: 70px;
+    width: 100%;
     padding: 1rem calc(1rem + env(safe-area-inset-right)) calc(1rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
     font-size: 1.45rem;
     font-weight: 800;
@@ -3920,6 +4000,20 @@ a {
     box-shadow:
       0 -4px 18px rgba(0, 0, 0, 0.2),
       inset 0 2px 0 rgba(255, 255, 255, 0.35);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition: none;
+  }
+
+  .mobile-fixed-cta-bar {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1900;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -3930,21 +4024,30 @@ a {
       visibility 0.3s ease;
   }
 
-  .hero-cta.mobile-fixed-cta.is-visible {
+  .mobile-fixed-cta-bar.is-visible {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
   }
 
-  .hero-cta.mobile-fixed-cta:hover {
+  .lp-cta-meta--mobile {
+    margin: 0;
+    padding: 0.45rem 1rem 0.35rem;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid rgba(14, 139, 98, 0.12);
+    font-size: 0.78rem;
+    gap: 0.25rem 0.85rem;
+  }
+
+  .mobile-fixed-cta-bar .hero-cta.mobile-fixed-cta:hover {
     transform: none;
     box-shadow:
       0 -5px 22px rgba(0, 0, 0, 0.24),
       inset 0 2px 0 rgba(255, 255, 255, 0.35);
   }
 
-  .hero-cta.mobile-fixed-cta:active {
+  .mobile-fixed-cta-bar .hero-cta.mobile-fixed-cta:active {
     transform: none;
     box-shadow:
       0 -2px 12px rgba(0, 0, 0, 0.18),
@@ -3960,13 +4063,33 @@ a {
     position: relative;
     flex-shrink: 0;
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 4.75rem 0.6rem 0.85rem 0.3rem;
+    min-height: 130px;
+    overflow: visible;
+  }
+
+  .sidebar-footer-characters {
+    display: flex;
     flex-direction: row;
     align-items: flex-end;
     justify-content: flex-start;
     gap: 0.4rem;
-    padding: 4.75rem 0.6rem 0.85rem 0.3rem;
-    min-height: 130px;
-    overflow: visible;
+    width: 100%;
+  }
+
+  .lp-cta-meta--sidebar {
+    top: 3.35rem;
+    bottom: auto;
+    left: 0.6rem;
+    right: 0.6rem;
+    margin: 0;
+    padding: 0;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    text-align: center;
   }
 
   .sidebar-footer-char {
@@ -4021,7 +4144,7 @@ a {
   }
 
   body.has-mobile-cta .main-content {
-    padding-bottom: 80px;
+    padding-bottom: 112px;
   }
   
   .hero:not(.lp-hero) {
@@ -4280,15 +4403,23 @@ a {
     padding: 1.45rem 0.2rem 0;
   }
 
+  .program-card-hand-core .playing-card--content .playing-card-center::before {
+    inset: 0.55rem 0.1rem 0.15rem;
+    background: rgba(255, 255, 255, 0.82);
+  }
+
   .program-card-hand-core .playing-card--content .playing-card-title {
     font-size: 1.22rem;
     line-height: 1.35;
+    color: #111;
   }
 
   .program-card-hand-core .playing-card--content .playing-card-text {
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.55;
     margin-top: 0.5rem;
+    color: #222;
+    font-weight: 600;
   }
 
   .program-card-hand-core .playing-card--content .playing-card-rank {
@@ -4312,7 +4443,8 @@ a {
   .program-card-hand-core .playing-card--content .playing-card-suit-large {
     font-size: 4rem;
     top: 0.15rem;
-    opacity: 0.08;
+    opacity: 0.03;
+    color: #1a1a1a !important;
   }
 
   .program-card-hand:not(.is-dealt) .playing-card--content-1,
@@ -4323,17 +4455,17 @@ a {
 
   .program-card-hand.is-dealt .playing-card--content-1 {
     transform: rotate(-1.5deg) translateX(-3px);
-    transition-delay: 0.35s;
+    transition-delay: 0.18s;
   }
 
   .program-card-hand.is-dealt .playing-card--content-2 {
     transform: rotate(0deg);
-    transition-delay: 0.6s;
+    transition-delay: 0.32s;
   }
 
   .program-card-hand.is-dealt .playing-card--content-3 {
     transform: rotate(1.5deg) translateX(3px);
-    transition-delay: 0.85s;
+    transition-delay: 0.46s;
   }
   
   /* 学習プログラムのタブ（SP版） */
@@ -4931,10 +5063,13 @@ a {
 
   .program-card-hand-core .playing-card--content .playing-card-title {
     font-size: 1.15rem;
+    color: #111;
   }
 
   .program-card-hand-core .playing-card--content .playing-card-text {
     font-size: 0.9rem;
+    color: #222;
+    font-weight: 600;
   }
 
   .program-card-hand-core .playing-card--content .playing-card-rank {
