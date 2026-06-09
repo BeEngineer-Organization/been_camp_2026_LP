@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // SP版固定CTAの表示制御を初期化
   initMobileFixedCta();
 
-  // オンライン説明会バナー（開催日時以降は非表示）
+  // オンライン説明会バナー（6/12 0:00以降は申込案内を非表示）
   initInfoSessionBanner();
 
   // SP版ヒーロー直下・昨年度の様子・写真マーキー
@@ -244,12 +244,15 @@ function initHamburgerMenu() {
   }
 }
 
-/** オンライン説明会バナーを非表示にする日時（日本時間） */
-const INFO_SESSION_DEADLINE = new Date('2026-06-12T19:00:00+09:00');
+/** オンライン説明会の申込案内を非表示にする日時（日本時間・6/12 0:00） */
+const INFO_SESSION_DEADLINE = new Date('2026-06-12T00:00:00+09:00');
+
+const INFO_SESSION_AFTER_MESSAGE =
+  'オンライン説明会をご参加希望の方は、各校舎へお問い合わせください。';
 
 /**
  * オンライン説明会の案内表示制御
- * 2026年6月12日（金）19:00（JST）以降はバナー・ナビ・文中リンクを非表示
+ * 2026年6月12日（金）0:00（JST）以降はバナー・ナビ・文中リンクを非表示
  */
 function initInfoSessionBanner() {
   const targets = document.querySelectorAll(
@@ -276,7 +279,20 @@ function initInfoSessionBanner() {
         const parent = element.closest('.section-note');
         if (parent) {
           parent.textContent =
-            '現在BeEngineerに通っている生徒が対象です。申込方法や詳細な持ち物は、申込案内とあわせてお知らせします。';
+            '現在BeEngineerに通っている生徒が対象です。' + INFO_SESSION_AFTER_MESSAGE;
+        }
+        return;
+      }
+
+      if (element.matches('[data-info-session-banner]')) {
+        const card = element.querySelector('.lp-info-session-card');
+        if (card && !card.dataset.infoSessionReplaced) {
+          card.dataset.infoSessionReplaced = 'true';
+          card.innerHTML =
+            '<p class="lp-info-session-kicker">オンライン説明会</p>' +
+            '<p class="lp-info-session-text">' +
+            INFO_SESSION_AFTER_MESSAGE +
+            '</p>';
         }
         return;
       }
