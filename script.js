@@ -2,6 +2,12 @@
 // BeEngineer Programming Camp - Main Script
 // ============================================
 
+
+
+/** 定員到達時は true に変更（キャンセル待ちモードへ切り替え） */
+const IS_REGISTRATION_WAITLIST = false;
+
+
 /**
  * DOMContentLoaded イベント
  * ページ読み込み完了後に実行
@@ -22,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // オンライン説明会バナー（6/12 0:00以降は申込案内を非表示）
   initInfoSessionBanner();
+
+  // 定員到達時のキャンセル待ち切り替え
+  initRegistrationWaitlist();
 
   // SP版ヒーロー直下・昨年度の様子・写真マーキー
   initHeroPhotoMarquee();
@@ -304,6 +313,81 @@ function initInfoSessionBanner() {
 
   hideIfPastDeadline();
   window.setInterval(hideIfPastDeadline, 60000);
+}
+
+
+const REGISTRATION_APPLY_URL = 'https://be-engineer.tech/event-list/447';
+const WAITLIST_FORM_URL = 'https://forms.gle/XFsLSMGvhCQYjpGT7';
+
+const WAITLIST_NOTICE_LINE1 =
+  '好評につき、定員に達しました。誠にありがとうございます。';
+const WAITLIST_NOTICE_LINE2 =
+  'キャンセル待ちをご希望される方は「キャンセル待ちフォーム」より登録をお願いします。';
+
+function renderWaitlistNotice(element) {
+  element.innerHTML = WAITLIST_NOTICE_LINE1 + '<br>' + WAITLIST_NOTICE_LINE2;
+}
+
+const WAITLIST_CAPACITY_LABEL = '定員に達しました（キャンセル待ち受付中）';
+
+/**
+ * 定員到達時に申込CTAをキャンセル待ちフォームへ切り替え
+ */
+function initRegistrationWaitlist() {
+  if (!IS_REGISTRATION_WAITLIST) {
+    return;
+  }
+
+  document.querySelectorAll('[data-registration-cta]').forEach(function(link) {
+    link.href = WAITLIST_FORM_URL;
+
+    if (link.classList.contains('character-speech-cta')) {
+      const label = link.querySelector('span');
+      if (label) {
+        label.textContent = 'キャンセル待ち';
+      }
+      return;
+    }
+
+    if (link.classList.contains('mobile-fixed-cta')) {
+      link.textContent = 'キャンセル待ちフォーム';
+      return;
+    }
+
+    link.textContent = 'キャンセル待ちフォーム';
+  });
+
+  document.querySelectorAll('[data-capacity-status]').forEach(function(element) {
+    element.textContent = WAITLIST_CAPACITY_LABEL;
+  });
+
+  const heroKicker = document.querySelector('.hero-kicker');
+  if (heroKicker) {
+    heroKicker.innerHTML = '2026年度 <br class="sp-br">キャンセル待ち受付';
+  }
+
+  const heroCtaGroup = document.querySelector('.hero-cta-group');
+  if (heroCtaGroup && !document.querySelector('.hero-panel .lp-waitlist-notice')) {
+    const notice = document.createElement('p');
+    notice.className = 'lp-waitlist-notice';
+    renderWaitlistNotice(notice);
+    heroCtaGroup.parentElement.insertBefore(notice, heroCtaGroup);
+  }
+
+  const applyLead = document.querySelector('[data-apply-lead]');
+  if (applyLead) {
+    renderWaitlistNotice(applyLead);
+  }
+
+  const applyDetail = document.querySelector('[data-apply-detail]');
+  if (applyDetail) {
+    applyDetail.textContent = '下記ボタンからキャンセル待ちフォームへお進みください。';
+  }
+
+  const faqAnswer = document.querySelector('[data-faq-registration-answer]');
+  if (faqAnswer) {
+    renderWaitlistNotice(faqAnswer);
+  }
 }
 
 /** SP版ヒーロー直下マーキー用（hero 14枚） */

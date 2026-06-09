@@ -2854,6 +2854,19 @@ a {
   text-align: center;
 }
 
+.lp-waitlist-notice {
+  margin: 0 0 1.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  border: 2px solid rgba(244, 127, 46, 0.35);
+  background: linear-gradient(135deg, #fff8f2 0%, #fff1e3 100%);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.65;
+  text-align: left;
+}
+
 .mobile-fixed-cta-bar {
   display: none;
 }
