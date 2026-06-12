@@ -5,7 +5,7 @@
 
 
 /** 定員到達時は true に変更（キャンセル待ちモードへ切り替え） */
-const IS_REGISTRATION_WAITLIST = false;
+const IS_REGISTRATION_WAITLIST = true;
 
 
 /**
